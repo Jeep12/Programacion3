@@ -80,28 +80,27 @@ public class MySimpleLinkedList<T> implements Iterable<T> {
 		Node<T> aux = this.first;
 		int contador = 0;
 		while (this.first != null && contador < _size) {
-			texto +=  aux.getInfo()+",";
+			texto += aux.getInfo() + ",";
 			aux = aux.getNext();
 			contador++;
 		}
 		return texto;
 	}
 
-
 	public int indexOf(T search) {
 		int pos = -1;
-		int contador =0;
+		int contador = 0;
 		Iterator<Integer> iterator = (Iterator<Integer>) this.iterator();
 		while (iterator.hasNext()) {
 			Integer value = iterator.next();
-			if(value.equals(search)) {
-				pos=contador;
+			if (value.equals(search)) {
+				pos = contador;
 			}
 			contador++;
 		}
 		return pos;
 	}
-	
+
 //	public int indexOf(T search) {
 //		Node<T> aux = this.first;
 //		int retorno = -1;
@@ -118,15 +117,16 @@ public class MySimpleLinkedList<T> implements Iterable<T> {
 //	}
 	public MySimpleLinkedList<Integer> combinar2(MySimpleLinkedList<Integer> otraLista) {
 		MySimpleLinkedList<Integer> aux = new MySimpleLinkedList<Integer>();
-		
-		for(T i:this) {
-			if(otraLista.indexOf((Integer) i) !=-1) {
+
+		for (T i : this) {
+			if (otraLista.indexOf((Integer) i) != -1) {
 				aux.insertFront((Integer) i);
 			}
 		}
-		
+
 		return aux;
 	}
+
 	public MySimpleLinkedList<Integer> combinar(MySimpleLinkedList<Integer> otraLista) {
 		MySimpleLinkedList<Integer> aux = new MySimpleLinkedList<Integer>();
 
@@ -146,8 +146,52 @@ public class MySimpleLinkedList<T> implements Iterable<T> {
 		}
 		return aux;
 	}
-
+//METODO PARA VER SI ESTA ORDENADO, NO RECURSIVO
+//	public boolean isOrdered() {
+//		Iterator<Integer> it = (Iterator<Integer>) this.iterator();
+//
+//		// Si la lista esta vacia consideramos que esta ordenada.
+//		// es decir si no tiene siguiente.
+//		if (!it.hasNext()) {
+//			return true;
+//		}
+//
+//		// Obtengo el primer elemento
+//		Integer current = it.next();
+//		while (it.hasNext()) {
+//			Integer value = it.next();
+//			if (current > value) {
+//				return false;
+//			}
+//			current = value;
+//		}
+//		return true;
+//	}
 	
+	public boolean isOrdered() {
+		MyIterator<T> it = this.iterator();
+	    if (!it.hasNext()) {
+	        return true;
+	    }
+	    Integer current = (Integer) it.next();
+	    
+	    System.out.println("current "+current);
+		return isOrderedRecursive(it, current);
+	}
+	
+	public boolean isOrderedRecursive(MyIterator<T> it, Integer current) {
+	    if (!it.hasNext()) {
+	        return true;
+	    }
+	    
+	    Integer next = (Integer) it.next();
+	    System.out.println("Siguiente "+next);
+	    if (current > next) {
+	        return false;
+	    }
+	    
+	    return isOrderedRecursive(it, next);
+	}
 	public MyIterator<T> iterator() {
 		return new MyIterator<T>(first);
 	}
